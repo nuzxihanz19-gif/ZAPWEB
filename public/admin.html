@@ -4,21 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Ziyad Template Studio</title>
+    <!-- Tailwind CSS (via CDN for simplicity in static file) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         :root {
             --bg-main: #0B1121;
             --bg-card: #111827;
-            --text-main: #F9FAFB;
-            --text-muted: #9CA3AF;
             --accent: #10B981;
-            --accent-hover: #059669;
-            --danger: #EF4444;
-            --border: #1F2937;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: #F9FAFB; }
 
         /* Lock Screen */
         #lock-screen {
@@ -26,264 +23,286 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        .lock-card {
-            background: var(--bg-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border);
-            text-align: center; width: 90%; max-width: 400px;
-        }
-
-        input {
-            width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border);
-            color: white; border-radius: 6px; margin: 10px 0; font-size: 1rem;
-        }
-
-        input:focus { outline: none; border-color: var(--accent); }
-
-        button {
-            background: var(--accent); color: white; padding: 12px 24px; border: none;
-            border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s;
-        }
-
-        button:hover { background: var(--accent-hover); }
-        button:disabled { opacity: 0.7; cursor: not-allowed; }
-
-        /* Admin Dashboard */
-        #admin-panel { display: none; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-
-        h1 { margin-bottom: 30px; color: var(--accent); text-align: center; }
-
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
-        textarea { width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border); color: white; border-radius: 6px; resize: vertical; min-height: 100px; }
-
-        /* Drag & Drop Zone */
+        /* Drag & Drop */
         .drop-zone {
-            border: 2px dashed var(--border); border-radius: 8px; padding: 40px; text-align: center;
-            cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.02);
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.02);
         }
-        .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(16, 185, 129, 0.05); }
-
-        .preview-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 20px;
-        }
-
-        .preview-item {
-            position: relative; aspect-ratio: 1; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
+        .drop-zone.dragover {
+            border-color: var(--accent);
+            background-color: rgba(16, 185, 129, 0.1);
         }
 
-        .preview-item img { width: 100%; height: 100%; object-fit: cover; }
-
-        .remove-btn {
-            position: absolute; top: 4px; right: 4px; background: rgba(239, 68, 68, 0.9);
-            color: white; border: none; width: 20px; height: 20px; border-radius: 50%;
-            cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent);
+            width: 20px; height: 20px;
+            animation: spin 1s linear infinite;
         }
-
-        .notification {
-            position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px;
-            color: white; transform: translateX(120%); transition: transform 0.3s ease; z-index: 10000;
-        }
-        .notification.show { transform: translateX(0); }
-        .success { background: var(--accent); }
-        .error { background: var(--danger); }
-
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <!-- Lock Screen -->
     <div id="lock-screen">
-        <div class="lock-card">
-            <h2 style="margin-bottom: 15px">Admin Access</h2>
-            <input type="password" id="access-code" placeholder="Masukkan Kode Akses">
-            <button onclick="checkCode()">Masuk</button>
-            <p id="lock-error" style="color: var(--danger); margin-top: 10px; font-size: 0.9rem;"></p>
+        <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 text-center w-full max-w-sm shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-white">Admin Access</h2>
+            <input type="password" id="access-code" placeholder="Masukkan Kode Akses"
+                   class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white mb-4 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+            <button onclick="checkCode()"
+                    class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors">
+                Masuk
+            </button>
+            <p id="lock-error" class="text-red-500 mt-4 text-sm"></p>
         </div>
     </div>
 
     <!-- Admin Panel -->
-    <div id="admin-panel">
-        <h1>Tambah Produk Baru</h1>
-        <form id="product-form">
-            <div class="form-group">
-                <label>Nama Produk</label>
-                <input type="text" name="name" required placeholder="Contoh: Template Toko Online">
-            </div>
+    <div id="admin-panel" class="hidden max-w-4xl mx-auto py-12 px-4">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-white">Tambah Produk Baru</h1>
+            <p class="text-gray-400 mt-2">Upload produk ke Firebase Firestore & Storage</p>
+        </div>
 
-            <div class="form-group">
-                <label>Judul Singkat</label>
-                <input type="text" name="title" required placeholder="Contoh: Modern & Responsif">
-            </div>
+        <form id="product-form" class="bg-gray-800 p-8 rounded-2xl border border-gray-700 shadow-xl space-y-6">
 
-            <div class="form-group">
-                <label>Deskripsi</label>
-                <textarea name="description" required placeholder="Deskripsi lengkap produk..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Harga (Rp)</label>
-                <input type="number" name="price" required min="1" placeholder="150000">
-            </div>
-
-            <div class="form-group">
-                <label>Link Produk (Lynk.id)</label>
-                <input type="url" name="lynkUrl" required placeholder="https://lynk.id/...">
-            </div>
-
-            <div class="form-group">
-                <label>Gambar Produk (5-10 Gambar)</label>
-                <div class="drop-zone" id="drop-zone">
-                    <p>Drag & drop gambar di sini atau klik untuk memilih</p>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px">JPG, PNG, WEBP (Maks 5MB)</p>
-                    <input type="file" id="file-input" multiple accept="image/png, image/jpeg, image/webp" style="display: none">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-400 mb-2 font-medium">Nama Produk</label>
+                    <input type="text" name="name" required placeholder="Contoh: Template Toko Online"
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none">
                 </div>
-                <div class="preview-grid" id="preview-grid"></div>
+                <div>
+                    <label class="block text-gray-400 mb-2 font-medium">Judul Singkat</label>
+                    <input type="text" name="title" required placeholder="Contoh: Modern & Responsif"
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none">
+                </div>
             </div>
 
-            <button type="submit" id="submit-btn">Simpan Produk</button>
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium">Deskripsi</label>
+                <textarea name="description" required rows="4" placeholder="Deskripsi lengkap produk..."
+                          class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none"></textarea>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-400 mb-2 font-medium">Harga (Rp)</label>
+                    <input type="number" name="price" required min="1" placeholder="150000"
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-2 font-medium">Link Produk (Lynk.id/dll)</label>
+                    <input type="url" name="lynkUrl" required placeholder="https://lynk.id/..."
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-400 mb-2 font-medium">Gambar Produk (Max 10)</label>
+                <div class="drop-zone border-2 border-dashed border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-emerald-500" id="drop-zone">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <p class="mt-2 text-gray-300">Drag & drop gambar di sini atau klik untuk memilih</p>
+                    <p class="text-sm text-gray-500 mt-1">JPG, PNG, WEBP (Max 5MB)</p>
+                    <input type="file" id="file-input" multiple accept="image/png, image/jpeg, image/webp" class="hidden">
+                </div>
+                <div class="preview-grid grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-6" id="preview-grid"></div>
+            </div>
+
+            <div class="pt-4 border-t border-gray-700 flex justify-end">
+                <button type="submit" id="submit-btn"
+                        class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span>Simpan Produk</span>
+                </button>
+            </div>
         </form>
     </div>
 
-    <div id="notification" class="notification"></div>
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-5 right-5 bg-gray-800 text-white px-6 py-4 rounded-lg shadow-xl border-l-4 border-emerald-500 transform translate-x-full transition-transform duration-300 z-50 flex items-center gap-3">
+        <span id="toast-icon">✅</span>
+        <p id="toast-message">Berhasil disimpan!</p>
+    </div>
 
-    <script>
-        const ACCESS_CODE = "15-zyd@2-010"; // Client-side check (UX only)
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        // Initialize Firebase
+        let db, storage;
+        try {
+            const app = initializeApp(window.firebaseConfig);
+            db = getFirestore(app);
+            storage = getStorage(app);
+            console.log("Firebase initialized successfully");
+        } catch (e) {
+            console.error("Firebase init error:", e);
+            alert("Gagal menginisialisasi Firebase. Pastikan firebase-config.js sudah diisi dengan benar.");
+        }
+
+        // Global Variables
+        const ACCESS_CODE = "15-zyd@2-010";
         let files = [];
 
-        // 1. Lock Screen Logic
-        function checkCode() {
+        // --- 1. Lock Screen Logic ---
+        window.checkCode = function() {
             const input = document.getElementById('access-code').value;
             if (input === ACCESS_CODE) {
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'block';
-                sessionStorage.setItem('admin_token', input); // Simpan untuk request API
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                sessionStorage.setItem('admin_token', input);
             } else {
                 document.getElementById('lock-error').textContent = "Kode akses salah!";
             }
         }
 
-        // Auto-login if session exists
         if (sessionStorage.getItem('admin_token') === ACCESS_CODE) {
-            checkCode(); // Reuse logic
-            document.getElementById('access-code').value = ACCESS_CODE; // Populate for UX
+            checkCode();
         }
 
-        // 2. Drag & Drop Logic
+        // --- 2. Drag & Drop Logic ---
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         const previewGrid = document.getElementById('preview-grid');
 
         dropZone.addEventListener('click', () => fileInput.click());
 
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
         });
 
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        dropZone.addEventListener('dragover', () => dropZone.classList.add('dragover'));
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            handleFiles(e.dataTransfer.files);
-        });
-
+        dropZone.addEventListener('drop', handleDrop);
         fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
+        function handleDrop(e) {
+            dropZone.classList.remove('dragover');
+            const dt = e.dataTransfer;
+            handleFiles(dt.files);
+        }
+
         function handleFiles(newFiles) {
-            const MAX_SIZE = 5 * 1024 * 1024;
-            const VALID_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+            const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
             Array.from(newFiles).forEach(file => {
-                if (!VALID_TYPES.includes(file.type)) {
-                    showNotification('Format file harus JPG, PNG, atau WEBP', 'error');
-                    return;
-                }
                 if (file.size > MAX_SIZE) {
-                    showNotification(`File ${file.name} terlalu besar (>5MB)`, 'error');
+                    showToast(`File ${file.name} terlalu besar (>5MB)`, 'error');
                     return;
                 }
 
                 // Add to array
                 files.push(file);
 
-                // Create preview
+                // Preview
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const div = document.createElement('div');
-                    div.className = 'preview-item';
+                    div.className = 'relative aspect-square bg-gray-900 rounded-lg overflow-hidden border border-gray-700 group';
                     div.innerHTML = `
-                        <img src="${e.target.result}">
-                        <button type="button" class="remove-btn" onclick="removeFile('${file.name}', this)">&times;</button>
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                        <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity" onclick="removeFile('${file.name}', this)">
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
                     `;
                     previewGrid.appendChild(div);
                 };
                 reader.readAsDataURL(file);
             });
-
-            updateFileCount();
         }
 
-        window.removeFile = (fileName, btnElement) => {
-            files = files.filter(f => f.name !== fileName); // Simple filter by name
-            btnElement.parentElement.remove();
-            updateFileCount();
+        window.removeFile = (fileName, btn) => {
+            files = files.filter(f => f.name !== fileName);
+            btn.parentElement.remove();
         }
 
-        function updateFileCount() {
-            // Optional: Show count UI
-        }
-
-        // 3. Form Submission
+        // --- 3. Form Submission ---
         document.getElementById('product-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
 
-            // Validation
-            if (files.length < 5 || files.length > 10) {
-                showNotification('Upload minimal 5 dan maksimal 10 gambar', 'error');
+            if (files.length === 0) {
+                showToast('Upload minimal 1 gambar', 'error');
                 return;
             }
 
+            // UI Loading State
+            const originalBtnContent = btn.innerHTML;
             btn.disabled = true;
-            btn.textContent = 'Mengupload...';
-
-            const formData = new FormData(e.target);
-            files.forEach(file => formData.append('images', file));
-
-            const token = sessionStorage.getItem('admin_token');
+            btn.innerHTML = `<div class="loader"></div> <span>Mengupload...</span>`;
 
             try {
-                const res = await fetch('/api/products', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: formData
-                });
+                // 1. Upload Images to Firebase Storage
+                const imageUrls = [];
 
-                const result = await res.json();
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    // Create unique path: products/{timestamp}_{random}_{filename}
+                    const path = `products/${Date.now()}_${Math.floor(Math.random()*1000)}_${file.name}`;
+                    const storageRef = ref(storage, path);
 
-                if (res.ok) {
-                    showNotification('Produk Berhasil Disimpan!', 'success');
-                    e.target.reset();
-                    files = [];
-                    previewGrid.innerHTML = '';
-                } else {
-                    throw new Error(result.error || 'Gagal menyimpan');
+                    const snapshot = await uploadBytes(storageRef, file);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+
+                    imageUrls.push({
+                        url: downloadURL,
+                        isThumbnail: i === 0
+                    });
                 }
-            } catch (err) {
-                showNotification(err.message, 'error');
+
+                // 2. Save Data to Firestore
+                const formData = new FormData(e.target);
+                const productData = {
+                    name: formData.get('name'),
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    price: Number(formData.get('price')),
+                    lynkUrl: formData.get('lynkUrl'),
+                    images: imageUrls,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                };
+
+                await addDoc(collection(db, "products"), productData);
+
+                showToast('Produk Berhasil Disimpan!', 'success');
+                e.target.reset();
+                files = [];
+                previewGrid.innerHTML = '';
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                showToast('Gagal menyimpan: ' + error.message, 'error');
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Simpan Produk';
+                btn.innerHTML = originalBtnContent;
             }
         });
 
-        function showNotification(msg, type) {
-            const el = document.getElementById('notification');
-            el.textContent = msg;
-            el.className = `notification show ${type}`;
-            setTimeout(() => el.classList.remove('show'), 3000);
+        // Toast Helper
+        function showToast(msg, type) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            document.getElementById('toast-icon').textContent = type === 'success' ? '✅' : '❌';
+            toast.className = `fixed top-5 right-5 px-6 py-4 rounded-lg shadow-xl border-l-4 transform transition-transform duration-300 z-50 flex items-center gap-3 ${type === 'success' ? 'bg-gray-800 text-white border-emerald-500' : 'bg-gray-800 text-white border-red-500'} translate-x-0`;
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
         }
     </script>
 </body>
