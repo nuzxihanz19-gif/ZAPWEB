@@ -15,7 +15,13 @@
             --accent: #10B981;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: #F9FAFB; }
+        /* Fallback background color if Tailwind fails to load */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: #F9FAFB;
+            margin: 0;
+        }
 
         /* Lock Screen */
         #lock-screen {
@@ -31,6 +37,9 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Helpers for showing/hiding without Tailwind */
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -42,7 +51,7 @@
             <input type="password" id="access-code" placeholder="Masukkan Kode Akses"
                    class="w-full p-3 bg-gray-900 border border-gray-700 rounded-lg text-white mb-4 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
             <button id="btn-login"
-                    class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors">
+                    class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors cursor-pointer">
                 Masuk
             </button>
             <p id="lock-error" class="text-red-500 mt-4 text-sm"></p>
@@ -122,20 +131,21 @@
     <!-- Firebase Config -->
     <script src="firebase-config.js"></script>
 
-    <!-- Firebase SDKs (Only App & Firestore, NO Storage) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Firebase SDKs (Compat version for file:// support) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+    <!-- App Logic -->
+    <script>
         // Initialize Firebase
         let db;
         try {
-            const app = initializeApp(window.firebaseConfig);
-            db = getFirestore(app);
-            console.log("Firebase initialized successfully (Firestore Only)");
+            firebase.initializeApp(window.firebaseConfig);
+            db = firebase.firestore();
+            console.log("Firebase initialized successfully (Compat Mode)");
         } catch (e) {
             console.error("Firebase init error:", e);
-            alert("Gagal menginisialisasi Firebase. Pastikan firebase-config.js sudah diisi dengan benar.");
+            alert("Gagal menginisialisasi Firebase. Pastikan firebase-config.js valid.");
         }
 
         // Global Variables
@@ -211,11 +221,11 @@
                     price: Number(formData.get('price')),
                     lynkUrl: formData.get('lynkUrl'),
                     images: images,
-                    createdAt: serverTimestamp(),
-                    updatedAt: serverTimestamp()
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
 
-                await addDoc(collection(db, "products"), productData);
+                await db.collection("products").add(productData);
 
                 showToast('Produk Berhasil Disimpan!', 'success');
                 e.target.reset();

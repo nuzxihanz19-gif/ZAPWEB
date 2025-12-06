@@ -22,7 +22,7 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0B1121; color: #F9FAFB; }
+        body { font-family: 'Inter', sans-serif; background-color: #0B1121; color: #F9FAFB; margin: 0; }
         .hero-gradient {
             background: radial-gradient(circle at top right, #1a2c4e 0%, transparent 40%),
                         radial-gradient(circle at bottom left, #0f2520 0%, transparent 40%);
@@ -177,15 +177,17 @@
     <!-- Firebase Config -->
     <script src="firebase-config.js"></script>
 
-    <!-- Firebase Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Firebase SDKs (Compat version for file:// support) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+    <!-- App Logic -->
+    <script>
         // Init
+        let db;
         try {
-            const app = initializeApp(window.firebaseConfig);
-            const db = getFirestore(app);
+            firebase.initializeApp(window.firebaseConfig);
+            db = firebase.firestore();
             loadProducts(db);
         } catch (e) {
             console.error("Firebase Error:", e);
@@ -196,8 +198,8 @@
             const grid = document.getElementById('product-grid');
 
             try {
-                const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-                const querySnapshot = await getDocs(q);
+                // Using .orderBy() with .get() in compat SDK
+                const querySnapshot = await db.collection("products").orderBy("createdAt", "desc").get();
 
                 grid.innerHTML = ''; // Clear loading
 
