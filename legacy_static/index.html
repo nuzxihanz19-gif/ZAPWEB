@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziyad Template Studio - Katalog Template Website</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Ziyad<span class="text-accent">Studio</span></a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#katalog" class="nav-link">Katalog</a></li>
+                <li><a href="#custom" class="nav-link">Custom</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>Katalog Template Website <span class="text-accent">Siap Pakai</span></h1>
+                <p class="subtitle">Cocok untuk UMKM, portofolio, dan kreator. Dapatkan website profesional tanpa perlu mulai dari nol.</p>
+                <div class="hero-buttons">
+                    <a href="#katalog" class="btn btn-primary">Lihat Katalog &rarr;</a>
+                    <a href="https://t.me/USERNAME_KAMU" target="_blank" class="btn btn-outline">Chat di Telegram</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Template Tersedia</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Klien Puas</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- Using a dark placeholder or transparent placeholder as the background will be dark -->
+                <!-- Ideally this would be the gradient circle from the screenshot, but I'll stick to structure -->
+                 <img src="https://via.placeholder.com/500x320/1F2937/FFFFFF?text=Preview" alt="Preview Template Website" style="opacity:0">
+            </div>
+        </div>
+    </section>
+
+    <!-- Katalog Section -->
+    <section id="katalog" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Katalog <span class="text-accent">Template</span></h2>
+                <p>Pilih template yang sesuai dengan kebutuhan bisnis atau project Anda</p>
+            </div>
+
+            <div class="catalog-grid">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-image-wrapper" onclick="openModal('https://via.placeholder.com/800x600?text=Preview+Modern+Business')">
+                        <img src="https://via.placeholder.com/400x300/111827/FFFFFF?text=Modern+Business" alt="Modern Business">
+                        <div class="overlay"><span class="view-icon">🔍 Lihat Detail</span></div>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">UMKM</span>
+                        <h3>Modern Business</h3>
+                        <p>Template profesional untuk bisnis modern dengan tampilan clean dan responsif.</p>
+                        <div class="card-footer">
+                            <p class="price">Rp 150.000</p>
+                            <a href="https://t.me/USERNAME_KAMU?text=Halo,%20saya%20mau%20pesan%20template%20Modern%20Business" target="_blank" class="btn btn-primary btn-sm">Pesan</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-image-wrapper" onclick="openModal('https://via.placeholder.com/800x600?text=Preview+Creative+Portfolio')">
+                        <img src="https://via.placeholder.com/400x300/111827/FFFFFF?text=Creative+Portfolio" alt="Creative Portfolio">
+                        <div class="overlay"><span class="view-icon">🔍 Lihat Detail</span></div>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">Portofolio</span>
+                        <h3>Creative Portfolio</h3>
+                        <p>Showcase karya Anda dengan gaya modern dan interaktif.</p>
+                        <div class="card-footer">
+                            <p class="price">Rp 120.000</p>
+                            <a href="https://t.me/USERNAME_KAMU?text=Halo,%20saya%20mau%20pesan%20template%20Creative%20Portfolio" target="_blank" class="btn btn-primary btn-sm">Pesan</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-image-wrapper" onclick="openModal('https://via.placeholder.com/800x600?text=Preview+Minimalist+Store')">
+                        <img src="https://via.placeholder.com/400x300/111827/FFFFFF?text=Minimalist+Store" alt="Minimalist Store">
+                        <div class="overlay"><span class="view-icon">🔍 Lihat Detail</span></div>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">UMKM</span>
+                        <h3>Minimalist Store</h3>
+                        <p>Template toko online minimalis dengan fokus pada produk.</p>
+                        <div class="card-footer">
+                            <p class="price">Rp 180.000</p>
+                            <a href="https://t.me/USERNAME_KAMU?text=Halo,%20saya%20mau%20pesan%20template%20Minimalist%20Store" target="_blank" class="btn btn-primary btn-sm">Pesan</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 (Generic/Existing) -->
+                <div class="card">
+                    <div class="card-image-wrapper" onclick="openModal('https://via.placeholder.com/800x600?text=Preview+Template+Blog')">
+                        <img src="https://via.placeholder.com/400x300/111827/FFFFFF?text=Template+Blog" alt="Template Blog">
+                        <div class="overlay"><span class="view-icon">🔍 Lihat Detail</span></div>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">Blogging</span>
+                        <h3>Personal Blog</h3>
+                        <p>Fokus pada konten tulisan dengan tipografi yang nyaman.</p>
+                        <div class="card-footer">
+                            <p class="price">Rp 100.000</p>
+                            <a href="https://t.me/USERNAME_KAMU?text=Halo,%20saya%20mau%20pesan%20template%20Minimalist%20Blog" target="_blank" class="btn btn-primary btn-sm">Pesan</a>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Card 5 (Generic/Existing) -->
+                 <div class="card">
+                    <div class="card-image-wrapper" onclick="openModal('https://via.placeholder.com/800x600?text=Preview+Restaurant+Menu')">
+                        <img src="https://via.placeholder.com/400x300/111827/FFFFFF?text=Restaurant+Menu" alt="Restaurant Menu">
+                        <div class="overlay"><span class="view-icon">🔍 Lihat Detail</span></div>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">UMKM</span>
+                        <h3>Restaurant Menu</h3>
+                        <p>Landing page untuk menampilkan menu makanan restoran.</p>
+                        <div class="card-footer">
+                            <p class="price">Rp 150.000</p>
+                            <a href="https://t.me/USERNAME_KAMU?text=Halo,%20saya%20mau%20pesan%20template%20Restaurant%20Menu" target="_blank" class="btn btn-primary btn-sm">Pesan</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 (Generic/Existing) -->
+                 <div class="card">
+                    <div class="card-image-wrapper" onclick="openModal('https://via.placeholder.com/800x600?text=Preview+Review+Landing')">
+                        <img src="https://via.placeholder.com/400x300/111827/FFFFFF?text=Review+Landing" alt="Review Landing">
+                        <div class="overlay"><span class="view-icon">🔍 Lihat Detail</span></div>
+                    </div>
+                    <div class="card-body">
+                        <span class="badge">Portofolio</span>
+                        <h3>Review Landing</h3>
+                        <p>Landing page untuk review produk atau jasa.</p>
+                        <div class="card-footer">
+                            <p class="price">Rp 130.000</p>
+                            <a href="https://t.me/USERNAME_KAMU?text=Halo,%20saya%20mau%20pesan%20template%20Review%20Landing" target="_blank" class="btn btn-primary btn-sm">Pesan</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Section -->
+    <section id="custom" class="section">
+        <div class="container">
+            <div class="custom-wrapper">
+                <div class="custom-content">
+                    <h2>Gak nemu yang cocok?</h2>
+                    <p>Kami bisa buatkan template khusus sesuai kebutuhan brand Anda.</p>
+
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">
+                                <h4>Konsultasi</h4>
+                                <p>Diskusikan desain & fitur.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">
+                                <h4>Pengerjaan</h4>
+                                <p>Proses coding & preview.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">
+                                <h4>Terima File</h4>
+                                <p>Siap upload ke hosting.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://t.me/USERNAME_KAMU" target="_blank" class="btn btn-primary btn-lg">Request via Telegram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>FAQ - Pertanyaan Umum</h2>
+                <p>Temukan jawaban untuk pertanyaan yang sering ditanyakan</p>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item active">
+                    <button class="faq-question">
+                        <span>File apa saja yang saya dapat?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Anda akan mendapatkan source code lengkap (HTML, CSS, JS), aset gambar, dan panduan instalasi.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Apakah harus bisa coding untuk menggunakan template?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Disarankan memiliki dasar HTML/CSS. Namun, kami menyertakan komentar dalam kode untuk memudahkan Anda mengganti teks dan gambar.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Apakah ada revisi untuk custom project?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Untuk template katalog tidak ada revisi (beli putus). Untuk layanan Custom, kami berikan kesempatan revisi minor sebanyak 2x.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Bagaimana cara pembayaran?</span>
+                        <span class="faq-icon"></span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Kami menerima transfer Bank (BCA/Mandiri) dan E-Wallet (GoPay/OVO/Dana). Pembayaran dilakukan di awal atau DP 50% untuk Custom.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                 <a href="#" class="logo">Ziyad<span class="text-accent">Studio</span></a>
+                 <p class="copyright">&copy; 2025 Ziyad Template Studio. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://t.me/USERNAME_KAMU" target="_blank">Kontak Telegram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div id="caption"></div>
+    </div>
+
+    <!-- Made with Emergent Badge (Simulated from screenshot) -->
+    <div class="emergent-badge">
+        <span>Made with Emergent</span>
+    </div>
+
+    <script>
+        // Sticky Navbar Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Lightbox Modal
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+
+        function openModal(src) {
+            modal.style.display = "block";
+            modalImg.src = src;
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
