@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Ziyad Template Studio</title>
+    <style>
+        :root {
+            --bg-main: #0B1121;
+            --bg-card: #111827;
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --accent: #10B981;
+            --accent-hover: #059669;
+            --danger: #EF4444;
+            --border: #1F2937;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
+
+        /* Lock Screen */
+        #lock-screen {
+            position: fixed; inset: 0; background: var(--bg-main); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+
+        .lock-card {
+            background: var(--bg-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border);
+            text-align: center; width: 90%; max-width: 400px;
+        }
+
+        input {
+            width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border);
+            color: white; border-radius: 6px; margin: 10px 0; font-size: 1rem;
+        }
+
+        input:focus { outline: none; border-color: var(--accent); }
+
+        button {
+            background: var(--accent); color: white; padding: 12px 24px; border: none;
+            border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s;
+        }
+
+        button:hover { background: var(--accent-hover); }
+        button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* Admin Dashboard */
+        #admin-panel { display: none; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+
+        h1 { margin-bottom: 30px; color: var(--accent); text-align: center; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
+        textarea { width: 100%; padding: 12px; background: var(--bg-main); border: 1px solid var(--border); color: white; border-radius: 6px; resize: vertical; min-height: 100px; }
+
+        /* Drag & Drop Zone */
+        .drop-zone {
+            border: 2px dashed var(--border); border-radius: 8px; padding: 40px; text-align: center;
+            cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.02);
+        }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(16, 185, 129, 0.05); }
+
+        .preview-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative; aspect-ratio: 1; background: #000; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
+        }
+
+        .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        .remove-btn {
+            position: absolute; top: 4px; right: 4px; background: rgba(239, 68, 68, 0.9);
+            color: white; border: none; width: 20px; height: 20px; border-radius: 50%;
+            cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+        }
+
+        .notification {
+            position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px;
+            color: white; transform: translateX(120%); transition: transform 0.3s ease; z-index: 10000;
+        }
+        .notification.show { transform: translateX(0); }
+        .success { background: var(--accent); }
+        .error { background: var(--danger); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Lock Screen -->
+    <div id="lock-screen">
+        <div class="lock-card">
+            <h2 style="margin-bottom: 15px">Admin Access</h2>
+            <input type="password" id="access-code" placeholder="Masukkan Kode Akses">
+            <button onclick="checkCode()">Masuk</button>
+            <p id="lock-error" style="color: var(--danger); margin-top: 10px; font-size: 0.9rem;"></p>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel">
+        <h1>Tambah Produk Baru</h1>
+        <form id="product-form">
+            <div class="form-group">
+                <label>Nama Produk</label>
+                <input type="text" name="name" required placeholder="Contoh: Template Toko Online">
+            </div>
+
+            <div class="form-group">
+                <label>Judul Singkat</label>
+                <input type="text" name="title" required placeholder="Contoh: Modern & Responsif">
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi</label>
+                <textarea name="description" required placeholder="Deskripsi lengkap produk..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Harga (Rp)</label>
+                <input type="number" name="price" required min="1" placeholder="150000">
+            </div>
+
+            <div class="form-group">
+                <label>Link Produk (Lynk.id)</label>
+                <input type="url" name="lynkUrl" required placeholder="https://lynk.id/...">
+            </div>
+
+            <div class="form-group">
+                <label>Gambar Produk (5-10 Gambar)</label>
+                <div class="drop-zone" id="drop-zone">
+                    <p>Drag & drop gambar di sini atau klik untuk memilih</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px">JPG, PNG, WEBP (Maks 5MB)</p>
+                    <input type="file" id="file-input" multiple accept="image/png, image/jpeg, image/webp" style="display: none">
+                </div>
+                <div class="preview-grid" id="preview-grid"></div>
+            </div>
+
+            <button type="submit" id="submit-btn">Simpan Produk</button>
+        </form>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        const ACCESS_CODE = "15-zyd@2-010"; // Client-side check (UX only)
+        let files = [];
+
+        // 1. Lock Screen Logic
+        function checkCode() {
+            const input = document.getElementById('access-code').value;
+            if (input === ACCESS_CODE) {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                sessionStorage.setItem('admin_token', input); // Simpan untuk request API
+            } else {
+                document.getElementById('lock-error').textContent = "Kode akses salah!";
+            }
+        }
+
+        // Auto-login if session exists
+        if (sessionStorage.getItem('admin_token') === ACCESS_CODE) {
+            checkCode(); // Reuse logic
+            document.getElementById('access-code').value = ACCESS_CODE; // Populate for UX
+        }
+
+        // 2. Drag & Drop Logic
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewGrid = document.getElementById('preview-grid');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        function handleFiles(newFiles) {
+            const MAX_SIZE = 5 * 1024 * 1024;
+            const VALID_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+            Array.from(newFiles).forEach(file => {
+                if (!VALID_TYPES.includes(file.type)) {
+                    showNotification('Format file harus JPG, PNG, atau WEBP', 'error');
+                    return;
+                }
+                if (file.size > MAX_SIZE) {
+                    showNotification(`File ${file.name} terlalu besar (>5MB)`, 'error');
+                    return;
+                }
+
+                // Add to array
+                files.push(file);
+
+                // Create preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}">
+                        <button type="button" class="remove-btn" onclick="removeFile('${file.name}', this)">&times;</button>
+                    `;
+                    previewGrid.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            updateFileCount();
+        }
+
+        window.removeFile = (fileName, btnElement) => {
+            files = files.filter(f => f.name !== fileName); // Simple filter by name
+            btnElement.parentElement.remove();
+            updateFileCount();
+        }
+
+        function updateFileCount() {
+            // Optional: Show count UI
+        }
+
+        // 3. Form Submission
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+
+            // Validation
+            if (files.length < 5 || files.length > 10) {
+                showNotification('Upload minimal 5 dan maksimal 10 gambar', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Mengupload...';
+
+            const formData = new FormData(e.target);
+            files.forEach(file => formData.append('images', file));
+
+            const token = sessionStorage.getItem('admin_token');
+
+            try {
+                const res = await fetch('/api/products', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    showNotification('Produk Berhasil Disimpan!', 'success');
+                    e.target.reset();
+                    files = [];
+                    previewGrid.innerHTML = '';
+                } else {
+                    throw new Error(result.error || 'Gagal menyimpan');
+                }
+            } catch (err) {
+                showNotification(err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Simpan Produk';
+            }
+        });
+
+        function showNotification(msg, type) {
+            const el = document.getElementById('notification');
+            el.textContent = msg;
+            el.className = `notification show ${type}`;
+            setTimeout(() => el.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
