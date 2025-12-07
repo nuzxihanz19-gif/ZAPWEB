@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@zhgchgli - Linktree</title>
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0B1121', // Dark background matching main site
+                        card: '#1F2937',       // Darker gray for cards (approximate)
+                        cardHover: '#374151',  // Lighter gray for hover
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-white min-h-screen flex flex-col items-center justify-center py-10 px-4">
+
+    <!-- Profile Section -->
+    <div class="text-center mb-8">
+        <div class="relative w-24 h-24 mx-auto mb-4">
+            <!-- Placeholder Profile Image -->
+            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-full w-full h-full object-cover border-2 border-gray-600">
+        </div>
+        <h1 class="text-xl font-bold mb-2">@zhgchgli</h1>
+        <p class="text-gray-400 text-sm max-w-md mx-auto">
+            An iOS, web, and automation developer from Taiwan 🇹🇼 who also loves sharing, traveling, and writing.
+        </p>
+    </div>
+
+    <!-- Links Section -->
+    <div class="w-full max-w-md space-y-4 mb-12">
+
+        <!-- Tech Blog -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+            <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fab fa-medium"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">Tech Blog</span>
+                <span class="text-gray-500 text-xs ml-2">(939 Followers)</span>
+            </div>
+        </a>
+
+        <!-- Travelog -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+            <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fas fa-plane"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">Travelog</span>
+                <span class="text-gray-500 text-xs ml-2">(939 Followers)</span>
+            </div>
+        </a>
+
+        <!-- Website -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+             <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fas fa-rss"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">Website</span>
+            </div>
+        </a>
+
+        <!-- ZMarkupParser -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+             <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fab fa-github"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">ZMarkupParser</span>
+                <span class="text-gray-500 text-xs ml-2">(304 Stars)</span>
+            </div>
+        </a>
+
+        <!-- ZReviewTender -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+             <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fab fa-app-store-ios"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">ZReviewTender</span>
+                <span class="text-gray-500 text-xs ml-2">(43 Stars)</span>
+            </div>
+        </a>
+
+        <!-- ZMediumToMarkdown -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+             <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fab fa-markdown"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">ZMediumToMarkdown</span>
+                <span class="text-gray-500 text-xs ml-2">(36 Stars)</span>
+            </div>
+        </a>
+
+        <!-- linkyee -->
+        <a href="#" class="block bg-card hover:bg-cardHover transition-colors p-4 rounded-lg flex items-center group">
+             <div class="w-8 h-8 flex items-center justify-center mr-3 text-2xl group-hover:scale-110 transition-transform">
+                <i class="fab fa-github-alt"></i>
+            </div>
+            <div class="flex-1">
+                <span class="font-semibold">linkyee</span>
+                <span class="text-gray-500 text-xs ml-2">(2 Stars)</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Footer Social Icons -->
+    <div class="flex space-x-6 mb-8 text-2xl">
+        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-medium"></i></a>
+        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-github"></i></a>
+        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-gray-300 transition-colors"><i class="fas fa-envelope"></i></a>
+    </div>
+
+    <!-- Footer Text -->
+    <div class="text-center text-gray-500 text-xs space-y-2">
+        <p>Hi there! Follow me on Medium or GitHub, or stay connected on<br>Instagram or LinkedIn.</p>
+        <p>&copy; 2024 ZhgChgLi. Powered by <span class="font-bold text-white">linkyee</span></p>
+    </div>
+
+</body>
+</html>
